@@ -9,13 +9,6 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)](https://streamlit.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-[Features](#-features) •
-[Demo](#-demo) •
-[Installation](#-installation) •
-[Usage](#-usage) •
-[Architecture](#-architecture) •
-[Contributing](#-contributing)
-
 </div>
 
 ---
@@ -57,7 +50,7 @@ graph LR
 
 ## ✨ Features
 
-<table>
+<table align="center">
 <tr>
 <td width="50%">
 
@@ -74,7 +67,6 @@ graph LR
 - LLM-powered intent extraction
 - Automatic requirement inference
 - Missing information detection
-- Confidence scoring
 
 </td>
 </tr>
@@ -93,7 +85,7 @@ graph LR
 ### 📊 Structured Output
 - Standardized JSON schema
 - Template-based formatting
-- Traceability metadata
+- Refine Prompt
 - Export capabilities
 
 </td>
@@ -119,34 +111,34 @@ graph LR
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    User Input Layer                          │
-│          (Text / Image / PDF / DOCX)                        │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│              Input Extraction Layer                          │
-│        OCR + Document Readers + Preprocessors               │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│                  Gemini LLM Engine                          │
-│         Intent Extraction + Requirement Analysis            │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│           Prompt Refinement Engine                          │
-│    Template Mapping + Assumption Generation + Scoring      │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│              Validation Layer                               │
-│         Quality Checks + Rejection Logic                    │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│         Final Structured Prompt (JSON)                      │
-└─────────────────────────────────────────────────────────────┘
+                                ┌─────────────────────────────────────────────────────────────┐
+                                │                    User Input Layer                         │
+                                │               (Text / Image / PDF / DOCX)                   │
+                                └─────────────────────────────┬───────────────────────────────┘
+                                                              │
+                                ┌─────────────────────────────▼───────────────────────────────┐
+                                │                 Input Extraction Layer                      │
+                                │         OCR + Document Readers + Preprocessors              │
+                                └─────────────────────────────┬───────────────────────────────┘
+                                                              │
+                                ┌─────────────────────────────▼───────────────────────────────┐
+                                │                    Gemini LLM Engine                        │
+                                │         Intent Extraction + Requirement Analysis            │
+                                └─────────────────────────────┬───────────────────────────────┘
+                                                              │
+                                ┌─────────────────────────────▼───────────────────────────────┐
+                                │                 Prompt Refinement Engine                    │
+                                │    Template Mapping + Assumption Generation + Scoring       │
+                                └─────────────────────────────┬───────────────────────────────┘
+                                                              │
+                                ┌─────────────────────────────▼───────────────────────────────┐
+                                │                     Validation Layer                        │
+                                │             Quality Checks + Rejection Logic                │
+                                └─────────────────────────────┬───────────────────────────────┘
+                                                              │
+                                ┌─────────────────────────────▼───────────────────────────────┐
+                                │              Final Structured Prompt (JSON)                 │
+                                └─────────────────────────────────────────────────────────────┘
 ```
 
 ### Key Design Principles
@@ -218,20 +210,11 @@ cd prompt-refinement-system
 pip install -r requirements.txt
 ```
 
-### Step 3: Install Tesseract OCR
+### Step 3: Install Tesseract OCR (Windows)
 
-**macOS:**
-```bash
-brew install tesseract
-```
+Download and install Tesseract OCR from [GitHub Releases](https://github.com/UB-Mannheim/tesseract/wiki)
 
-**Ubuntu/Debian:**
-```bash
-sudo apt-get install tesseract-ocr
-```
-
-**Windows:**
-Download from [GitHub Releases](https://github.com/UB-Mannheim/tesseract/wiki)
+After installation, add Tesseract to your system PATH or update the path in your code.
 
 ### Step 4: Configure API Key
 
@@ -291,37 +274,31 @@ curl -X POST "http://localhost:8000/refine" \
 
 ```
 prompt-refinement-system/
+├── Docs/
+│   └── prompt_template.md      # Prompt structure documentation
+├── samples/
+│   ├── input1.txt              # Sample text input
+│   ├── input2.txt
+│   ├── input3.txt
+│   ├── input4.txt
+│   ├── input5.txt
+│   ├── output1.json            # Refined output
+│   ├── output2.json
+│   ├── output3.json
+│   ├── output4.json
+│   └── output5.json 
 ├── src/
+│   ├── __pycache__/
+│   ├── uploads/
+│   ├── ai_engine.py            # Gemini LLM integration
+│   ├── extractor.py            # Multi-modal extraction
 │   ├── main.py                 # FastAPI backend
-│   ├── refinement_engine.py    # Core refinement logic
-│   ├── extractors/             # Input extraction modules
-│   │   ├── text_extractor.py
-│   │   ├── image_extractor.py
-│   │   └── document_extractor.py
-│   └── validators/             # Validation logic
+│   ├── refiner.py              # Prompt refinement logic
+│   └── validator.py            # Validation layer
 ├── frontend.py                 # Streamlit UI
-├── samples/                    # Example inputs & outputs
-│   ├── sample_1_website.txt
-│   ├── sample_2_mobile_app.pdf
-│   └── sample_outputs/
-├── requirements.txt
-├── .env.example
-└── README.md
+├── README.md
+└── requirements.txt
 ```
-
----
-
-## 🧪 Sample Inputs & Outputs
-
-The `/samples` directory contains **5 diverse examples** demonstrating:
-
-| Type | Input | Output Quality |
-|------|-------|----------------|
-| 🌐 Website | Informal text description | ⭐⭐⭐⭐⭐ |
-| 📱 Mobile App | PDF specification | ⭐⭐⭐⭐⭐ |
-| 🤖 AI Tool | Screenshot + text | ⭐⭐⭐⭐ |
-| 💼 Business System | DOCX document | ⭐⭐⭐⭐⭐ |
-| ❌ Invalid | Incomplete input | Rejected ✅ |
 
 ---
 
@@ -352,50 +329,14 @@ This is **not just an AI wrapper**. It's a **prompt engineering system** designe
 4. **Failing gracefully on invalid inputs**
 5. **Scaling to production workloads**
 
-### Real-World Applications
-
-- 🏢 **Enterprise AI Tools**: Standardize internal AI workflows
-- 📝 **Content Generation**: Convert briefs into structured prompts
-- 🤝 **Customer Support**: Transform user queries into actionable tickets
-- 🎓 **Education Platforms**: Convert student inputs into learning paths
-- 🛍️ **E-commerce**: Refine product descriptions for AI catalogs
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. 🍴 Fork the repository
-2. 🌿 Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. 💾 Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. 📤 Push to the branch (`git push origin feature/AmazingFeature`)
-5. 🎉 Open a Pull Request
-
-### Areas for Improvement
-
-- [ ] Add support for more document formats
-- [ ] Implement batch processing
-- [ ] Add multi-language support
-- [ ] Create API rate limiting
-- [ ] Add comprehensive test suite
-- [ ] Build caching layer
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ---
 
 ## 👨‍💻 Author
 
 **Your Name**
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourname)
-- Email: your.email@example.com
+- GitHub: https://github.com/JiteshSuthar-JS
+- Email: jiteshsuthar146@gmail.com
 
 ---
 
@@ -407,11 +348,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Streamlit for rapid UI development
 
 ---
-
-<div align="center">
-
-### ⭐ Star this repository if you find it useful!
-
-**Made with ❤️ and AI**
-
-</div>
