@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+google-generativeai
+pillow
+pytesseract
+pdfplumber
+python-docx
+streamlit

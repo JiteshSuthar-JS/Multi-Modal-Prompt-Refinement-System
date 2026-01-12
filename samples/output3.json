@@ -1,0 +1,24 @@
+{
+  "product_intent": "To build an AI system capable of identifying fraudulent or fake resumes.",
+  "target_user": [
+    "HR teams",
+    "Recruiters"
+  ],
+  "core_features": [
+    "AI-powered detection of fake resumes",
+    "Highlighting of suspicious information within a resume"
+  ],
+  "technical_constraints": [],
+  "expected_outputs": [
+    "Flagged resumes identified as fake or suspicious",
+    "Visual indicators or annotations highlighting specific suspicious sections or data points in a resume"
+  ],
+  "input_sources": {
+    "text": true,
+    "image": false,
+    "document": false
+  },
+  "assumptions": [],
+  "missing_information": [],
+  "confidence_score": 1
+}

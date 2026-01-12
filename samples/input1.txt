@@ -1,0 +1,4 @@
+Sample 1 — E-commerce Website
+
+
+I want a website to sell handmade jewelry online. Customers should be able to browse products, add items to cart, and make payments.

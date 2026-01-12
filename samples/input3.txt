@@ -1,0 +1,4 @@
+Sample 3 — AI Tool
+
+
+Build an AI system that can detect fake resumes and highlight suspicious information for HR teams.
