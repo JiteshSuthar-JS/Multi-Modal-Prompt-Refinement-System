@@ -333,7 +333,7 @@ This is **not just an AI wrapper**. It's a **prompt engineering system** designe
 
 ## 👨‍💻 Author
 
-**Your Name**
+**Jitesh Suthar**
 
 - GitHub: https://github.com/JiteshSuthar-JS
 - Email: jiteshsuthar146@gmail.com
